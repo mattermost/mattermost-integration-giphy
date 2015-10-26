@@ -63,7 +63,7 @@ Here's how to start:
     - `git clone https://github.com/mattermost/mattermost-integration-giphy.git`
     - `cd mattermost-integration-giphy`
  6. Install integration requirements
-    - `sudo pip -r requirements.txt`
+    - `sudo pip install -r requirements.txt`
 
 2. **Set up your Mattermost outgoing webhooks**
  1. Log in to your Mattermost account, and from three dot icon at the top of the left-hand menu go to **Account Settings** > **Integrations** > **Outgoing Webhooks** > **Edit**
