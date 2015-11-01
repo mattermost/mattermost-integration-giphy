@@ -1,9 +1,16 @@
 # Giphy Integration Service for Mattermost
 
-Mattermost community members are invited to fork this repo to create new integrations. To have your integration referenced on http://www.mattermost.org/webhooks/, please mail info@mattermost.com or tweet to [@MattermostHQ](https://twitter.com/mattermosthq). 
+This integrations service is used to enable an external search engine ([Giphy](https://en.wikipedia.org/wiki/Giphy)) to be queried based on commands issued in a Mattermost channel using Mattermost [outgoing webhooks](https://github.com/mattermost/platform/blob/master/doc/integrations/webhooks/Outgoing-Webhooks.md). 
+
+Once installed, users can type `gif: keyword` to send a query to the Giphy search engine and return with a post containing one non-deterministic search result from the Giphy database of animated GIF files matching `keyword`. The animation will appear below in the posted message. 
 
 Powered by [Giphy](http://giphy.com/).
 
+## Project Goal
+
+The goal of this project is to provide a fully-functional template on which the Mattermost community can create their own integration services. Community members are invited to fork this repo to add improvements and to create new integrations. 
+
+To have your work included on the [Mattermost integrations page](www.mattermost.org/community-applications/), please mail info@mattermost.com or tweet to [@MattermostHQ](https://twitter.com/mattermosthq). 
 ## Requirements
 
 To run this integration you need:
