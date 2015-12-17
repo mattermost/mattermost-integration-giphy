@@ -2,6 +2,7 @@ import os
 import sys
 import requests
 import json
+from urlparse import urlsplit,urlunsplit
 from flask import Flask
 from flask import request
 from flask import Response
@@ -11,6 +12,7 @@ app = Flask(__name__)
 USERNAME = 'giphy' # username the bot posts as
 ICON_URL = 'http://api.giphy.com/img/api_giphy_logo.png' # display picture the bot posts with
 RATING = 'pg' # the maximum parental rating of gifs posted (y, pg, pg-13, r)
+SCHEME = 'http' # scheme to be used for the gif url returned to mattermost
 
 GIPHY_API_KEY = 'dc6zaTOxFJmzC' # this is a public beta key, for production use you must go to http://api.giphy.com/submit and request a production key
 MATTERMOST_GIPHY_TOKEN = '' # the Mattermost token generated when you created your outgoing webhook
@@ -75,13 +77,16 @@ def giphy_translate(text):
 
     resp_data = resp.json()
 
-    return resp_data['data']['images']['original']['url']
+    url = list(urlsplit(resp_data['data']['images']['original']['url']))
+    url[0] = SCHEME.lower()
+    return urlunsplit(url)
 
 
 if __name__ == "__main__":
     USERNAME = os.environ.get('USERNAME', USERNAME)
     ICON_URL = os.environ.get('ICON_URL', ICON_URL)
     RATING = os.environ.get('RATING', RATING)
+    SCHEME = os.environ.get('SCHEME', SCHEME)
     GIPHY_API_KEY = os.environ.get('GIPHY_API_KEY', GIPHY_API_KEY)
     MATTERMOST_GIPHY_TOKEN = os.environ.get('MATTERMOST_GIPHY_TOKEN', MATTERMOST_GIPHY_TOKEN)
 
