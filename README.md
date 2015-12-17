@@ -81,8 +81,8 @@ Here's how to start:
 
 3. **Run the server with the correct configuration**
  7. Back on SSH or your terminal, add the following lines to your `~/.bash_profile`
-    - `export MATTERMOST_TOKEN=<your-token-here>` This is the token you copied in the last section
-    - `export PORT=<your-port-number>` The port number you want the integration to listen on (defaults to 5000)
+    - `export MATTERMOST_GIPHY_TOKEN=<your-token-here>` This is the token you copied in the last section
+    - `export MATTERMOST_GIPHY_PORT=<your-port-number>` The port number you want the integration to listen on (defaults to 5000)
  8. Source your bash profile
     - `source ~/.bash_profile`
  9. Run the server
@@ -102,9 +102,9 @@ If you'd like to use this integration in a production envrionment, it is strongl
 
 ##### On Linux/Ubuntu 14.04 Web Server
 1. Stop the process currently running the integration
-1. Add the following lines to your `~/.bash_profile`
+1. Add the following lines to your `~/.bash_profile` or `~/.bashrc` 
    - `export GIPHY_API_KEY=<your-api-key-here>` With your Giphy API key
 2. Source your bash profile
-   - `source ~/.bash_profile`
+   - `source ~/.bash_profile` or `source ~/.bashrc`
 3. Run the server again
    - `python server.py`

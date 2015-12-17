@@ -13,7 +13,7 @@ ICON_URL = 'http://api.giphy.com/img/api_giphy_logo.png' # display picture the b
 RATING = 'pg' # the maximum parental rating of gifs posted (y, pg, pg-13, r)
 
 GIPHY_API_KEY = 'dc6zaTOxFJmzC' # this is a public beta key, for production use you must go to http://api.giphy.com/submit and request a production key
-MATTERMOST_TOKEN = '' # the Mattermost token generated when you created your outgoing webhook
+MATTERMOST_GIPHY_TOKEN = '' # the Mattermost token generated when you created your outgoing webhook
 
 @app.route('/')
 def root():
@@ -31,20 +31,20 @@ def new_post():
 
     data = request.form
 
-    if data['token'] != MATTERMOST_TOKEN:
-        print 'Tokens did not match, it is possible that this request came from somewhere other than Mattermost'
+    if MATTERMOST_GIPHY_TOKEN.find(data['token']) == -1:
+        print('Tokens did not match, it is possible that this request came from somewhere other than Mattermost')
         return 'OK'
 
     translate_text = data['text'][len(data['trigger_word']):]
 
     if len(translate_text) == 0:
-        print "No translate text provided, not hitting Giphy"
+        print("No translate text provided, not hitting Giphy")
         return 'OK'
 
     gif_url = giphy_translate(translate_text)
 
     if len(gif_url) == 0:
-        print 'No gif url found, not returning a post to Mattermost'
+        print('No gif url found, not returning a post to Mattermost')
         return 'OK'
 
     resp_data = {}
@@ -70,7 +70,7 @@ def giphy_translate(text):
     resp = requests.get('http://api.giphy.com/v1/gifs/translate', params=params)
 
     if resp.status_code is not requests.codes.ok:
-        print 'Encountered error using Giphy API, text=%s, status=%d, response_body=%s' % (text, resp.status_code, resp.json())
+        print('Encountered error using Giphy API, text=%s, status=%d, response_body=%s' % (text, resp.status_code, resp.json()))
         return ''
 
     resp_data = resp.json()
@@ -83,15 +83,16 @@ if __name__ == "__main__":
     ICON_URL = os.environ.get('ICON_URL', ICON_URL)
     RATING = os.environ.get('RATING', RATING)
     GIPHY_API_KEY = os.environ.get('GIPHY_API_KEY', GIPHY_API_KEY)
-    MATTERMOST_TOKEN = os.environ.get('MATTERMOST_TOKEN', MATTERMOST_TOKEN)
+    MATTERMOST_GIPHY_TOKEN = os.environ.get('MATTERMOST_GIPHY_TOKEN', MATTERMOST_GIPHY_TOKEN)
 
     if len(GIPHY_API_KEY) == 0:
-        print "GIPHY_API_KEY must be configured. Please see README.md for instructions"
+        print("GIPHY_API_KEY must be configured. Please see README.md for instructions")
         sys.exit()
 
-    if len(MATTERMOST_TOKEN) == 0:
-        print "MATTERMOST_TOKEN must be configured. Please see README.md for instructions"
+    if len(MATTERMOST_GIPHY_TOKEN) == 0:
+        print("MATTERMOST_GIPHY_TOKEN must be configured. Please see README.md for instructions")
         sys.exit()
 
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('MATTERMOST_GIPHY_PORT', 5000))
+    # use 0.0.0.0 if it shall be accessible from outside of host
+    app.run(host='127.0.0.1', port=port)
