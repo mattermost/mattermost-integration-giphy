@@ -10,9 +10,9 @@ from flask import Response
 app = Flask(__name__)
 
 USERNAME = 'giphy' # username the bot posts as
-ICON_URL = 'http://api.giphy.com/img/api_giphy_logo.png' # display picture the bot posts with
+ICON_URL = 'https://api.giphy.com/img/api_giphy_logo.png' # display picture the bot posts with
 RATING = 'pg' # the maximum parental rating of gifs posted (y, pg, pg-13, r)
-SCHEME = 'http' # scheme to be used for the gif url returned to mattermost
+SCHEME = 'https' # scheme to be used for the gif url returned to mattermost
 
 GIPHY_API_KEY = 'dc6zaTOxFJmzC' # this is a public beta key, for production use you must go to http://api.giphy.com/submit and request a production key
 MATTERMOST_GIPHY_TOKEN = '' # the Mattermost token generated when you created your outgoing webhook
@@ -69,7 +69,7 @@ def giphy_translate(text):
     params['rating'] = RATING
     params['api_key'] = GIPHY_API_KEY
 
-    resp = requests.get('http://api.giphy.com/v1/gifs/translate', params=params)
+    resp = requests.get('https://api.giphy.com/v1/gifs/translate', params=params, verify=True)
 
     if resp.status_code is not requests.codes.ok:
         print('Encountered error using Giphy API, text=%s, status=%d, response_body=%s' % (text, resp.status_code, resp.json()))
